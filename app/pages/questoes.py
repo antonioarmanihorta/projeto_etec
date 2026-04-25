@@ -30,20 +30,24 @@ def questoes_page():
         if indice >= limite:
             with container:
                 ui.label('Quiz finalizado!').classes('text-2xl')
+                ui.label(f'Pontuação final: {pontos}').classes('text-xl mt-4')
             return
 
         pergunta_atual = perguntas_embaralhadas[indice]
 
         with container:
             with ui.card().classes('p-6 rounded-xl shadow bg-white'):
-                ui.label(pergunta_atual['pergunta']).classes('w-full text-center text-2xl')
+                ui.label(f'Questão {indice + 1}/{limite} - Pontos: {pontos}').classes('w-full text-center text-sm text-gray-600')
+                ui.label(pergunta_atual['pergunta']).classes('w-full text-center text-2xl mt-4')
 
                 for opcao in pergunta_atual['opcoes']:
                     def verificar_resposta(opcao=opcao):
                         nonlocal indice
+                        global pontos
 
                         if opcao == pergunta_atual['correta']:
                             ui.notify('Resposta correta!', color='positive')
+                            pontos += 1
                         else:
                             ui.notify('Resposta incorreta. Tente novamente.', color='negative')
 
