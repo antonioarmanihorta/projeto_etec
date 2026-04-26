@@ -7,8 +7,11 @@ def login_page():
         if nome_usuario.value == 'admin' and senha.value == '1234':
             ui.notify('Login realizado com sucesso!', color='positive')
             ui.navigate.to('/modos_jogos')
+        elif nome_usuario.value == 'professor' and senha.value == '1234':
+            ui.notify('Login realizado com sucesso!', color='positive')
+            ui.navigate.to('/teacher')
         else:
-            ui.notify('UsuÃ¡rio ou senha incorretos', color='negative')
+            ui.notify('Usuário ou senha incorretos', color='negative')
 
     with ui.column().classes('w-full h-screen flex items-center justify-center bg-white'):
         with ui.card().classes('p-6 rounded-xl shadow bg-white'):
