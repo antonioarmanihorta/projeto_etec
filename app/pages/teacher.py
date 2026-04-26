@@ -12,7 +12,7 @@ def teacher_page():
                 ui.html('<div class="flex items-center justify-center w-20 h-20 bg-blue-100 border-2 border-blue-500 rounded-lg"><i class="fa-solid fa-user-group text-4xl text-blue-500"></i></div>')
                 ui.label("Sala da turma")
                 ui.label("Adicionar texto de descrição da sala da turma")
-                ui.button("Criar sala", color="yellow")
+                ui.button("Criar sala", color="yellow", on_click=lambda: ui.navigate.to('/classroom_code'))
             with ui.card().classes('w-[328px] h-[300px]'):
                 ui.html('<div class="flex items-center justify-center w-20 h-20 bg-blue-100 border-2 border-blue-500 rounded-lg"><i class="fa-solid fa-chart-column text-4xl text-blue-500"></i></div>')
                 ui.label("Relatório")
