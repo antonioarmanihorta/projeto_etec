@@ -1,5 +1,5 @@
 from nicegui import ui
-from app.pages import historico_jogador, login, modos_jogos, questoes
+from app.pages import historico_jogador, login, modos_jogos, questoes, teacher, classroom_code
 
 ui.add_head_html(
     '''

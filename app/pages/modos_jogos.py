@@ -5,7 +5,7 @@ from nicegui import ui
 def modos_jogos_page():
     with ui.column().classes('w-full h-screen flex items-center justify-center bg-white'):
         ui.label('Selecione um modo de jogo').classes('text-xs')
-        ui.label('Como vocÃª quer jogar hoje?').classes('text-5xl')
+        ui.label('Como você quer jogar hoje?').classes('text-5xl')
 
         with ui.row():
             with ui.card():
