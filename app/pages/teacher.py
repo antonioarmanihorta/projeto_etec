@@ -23,7 +23,7 @@ def teacher_page():
                 ui.html('<div class="flex items-center justify-center w-20 h-20 bg-blue-100 border-2 border-blue-500 rounded-lg"><i class="fa-solid fa-pen-to-square text-4xl text-blue-500"></i></div>')
                 ui.label("Perguntas")
                 ui.label("Adicionar texto de descrição das perguntas")
-                ui.button("Gerenciar  perguntas", color="blue")
+                ui.button("Gerenciar  perguntas", color="blue", on_click=lambda: ui.navigate.to('/add_question'))
             with ui.card().classes('w-[328px] h-[300px]'):
                 ui.html('<div class="flex items-center justify-center w-20 h-20 bg-blue-100 border-2 border-blue-500 rounded-lg"><i class="fa-solid fa-tasks text-4xl text-blue-500"></i></div>')
                 ui.label("Tarefas")
