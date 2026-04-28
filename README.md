@@ -16,7 +16,10 @@ projeto_etec/
         |-- historico_jogador.py
         |-- login.py
         |-- modos_jogos.py
-        `-- questoes.py
+        |-- questoes.py
+        |-- teacher.py
+        |-- classroom_code.py
+        `-- add_question.py
 ```
 
 ## Instalacao do frontend
