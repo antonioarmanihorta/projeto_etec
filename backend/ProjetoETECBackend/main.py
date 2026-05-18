@@ -16,7 +16,7 @@ app.include_router(match_router)
 # para baixar os requerimentos: pip install -r requirements.txt
 # para rodar o codigo, executar no terminal: uvicorn main:app --reload
 # caso nao consiga baixar os requerimentos pelo comando pip install baixar: pip install fastapi uvicorn sqlalchemy passlib[bcrypt] python-jose[cryptography] python-dotenv python-multipart
-# para criar a secret key rodar: python -c "import secrets; print(secrets.token_hex(32))"
+# para criar uma secret key, rodar: python -c "import secrets; print(secrets.token_hex(32))"
 
 # endpoint:
 # dom.com/match/
