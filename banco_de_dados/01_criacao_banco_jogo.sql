@@ -57,7 +57,7 @@ CREATE TABLE turma  (
 );
 
 -- CONTEÚDO DO JOGO
--- tema - 
+-- tema - tabela para poder separar os temas de pergunta, como por exemplo "vidraria"
 CREATE TABLE tema (
     id INT PRIMARY KEY,
     nome VARCHAR(100),
@@ -67,9 +67,10 @@ CREATE TABLE tema (
 );
 
 
---  Questao - criada pelo professor, com suporte a imagem e nível de dificuldade
+--  Questao - criada pelo professor, com suporte a imagem e nível de dificuldade e com dois possíveis tipos de perguntas
 CREATE TABLE questao (
     id INT PRIMARY KEY,
+    id_tema INT,
     enunciado TEXT NOT NULL,
     tipo_questao ENUM('multipla_escolha', 'associacao') NOT NULL,
     nivel_dificuldade TINYINT NOT NULL,
@@ -79,7 +80,8 @@ CREATE TABLE questao (
     criado_por INT NOT NULL,
     dt_hora_criacao TIMESTAMP NOT NULL,
     dt_hora_atualizacao TIMESTAMP,
-    FOREIGN KEY (criado_por) REFERENCES USUARIO(id)
+    FOREIGN KEY (criado_por) REFERENCES usuario(id),
+    FOREIGN KEY (id_tema) REFERENCES tema(id)
 );
 ALTER TABLE questao ADD CHECK (nivel_dificuldade BETWEEN 1 AND 3);
 
@@ -91,8 +93,7 @@ CREATE TABLE alternativa (
     imagem_url VARCHAR(500) NULL,
     descricao_imagem VARCHAR(255) NULL,
     is_correta BOOLEAN NOT NULL DEFAULT FALSE,
-    ordem TINYINT NOT NULL DEFAULT 0,
-    FOREIGN KEY (id_questao) REFERENCES QUESTAO(id)
+    FOREIGN KEY (id_questao) REFERENCES questao(id)
 );
 
 -- Ajuda - dicas vinculadas a uma questão (eliminar alternativa ou texto explicativo por exemplo)
@@ -101,7 +102,7 @@ CREATE TABLE ajuda (
     id_questao INT NOT NULL,
     tipo ENUM('eliminar_alternativa', 'dica_textual') NOT NULL,
     conteudo TEXT NOT NULL,  --  o que vai dentro depende do tipo. Para dica_textual é o texto da dica. Para eliminar_alternativa é o id da alternativa errada que deve ser eliminada da tela.
-    FOREIGN KEY (id_questao) REFERENCES QUESTAO(id)
+    FOREIGN KEY (id_questao) REFERENCES questao(id)
 );
 
 -- SESSÃO DE JOGO
@@ -114,7 +115,59 @@ CREATE TABLE partida (
     condicao ENUM('em_andamento', 'concluida', 'abandonada') NOT NULL DEFAULT 'em_andamento',
     iniciada_em TIMESTAMP NOT NULL,
     finalizada_em TIMESTAMP NULL,
-    FOREIGN KEY (id_usuario) REFERENCES USUARIO(id)
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id)
 );
 
 -- Resposta — cada resposta dada durante uma partida, rastreando acerto e uso de ajuda
+CREATE TABLE resposta (
+    id INT PRIMARY KEY,
+    id_partida INT,
+    id_questao INT,
+    id_alternativa INT,
+    correta BOOLEAN,
+    ajuda_usada BOOLEAN,
+    tempo_resposta TIMESTAMP,
+    FOREIGN KEY (id_partida) REFERENCES partida(id),
+    FOREIGN KEY (id_questao) REFERENCES questao(id),
+    FOREIGN KEY (id_alternativa) REFERENCES alternativa(id)
+);
+
+-- Tarefa - tabela criada para a nossa funcionalidade do jogo de criação de tarefas 
+CREATE TABLE tarefa (
+    id INT PRIMARY KEY,
+    id_professor INT,
+    titulo VARCHAR(50),
+    descricao TEXT,
+    nota_maxima DECIMAL(5, 2),
+    limite_tentativas TINYINT,
+    tempo_limite SMALLINT,
+    data_entrega TIMESTAMP,
+    disponibilidade ENUM('ativo', 'inativo'),
+    data_criacao TIMESTAMP,
+    data_alteracao TIMESTAMP,
+    data_exclusao TIMESTAMP,
+    FOREIGN KEY (id_professor) REFERENCES professor(id_professor)
+);
+
+-- turma_tabela - tabela criada pela cardinalidade do relacionamento entre turma e tarefa 
+CREATE TABLE turma_tarefa (
+	id_turma INT PRIMARY KEY,
+    id_tarefa INT PRIMARY KEY,
+    FOREIGN KEY (id_turma) REFERENCES turma(id),
+    FOREIGN KEY (id_tarefa) REFERENCES tarefa(id)
+);
+
+-- Resposta_tarefa - 
+CREATE TABLE resposta_tarefa (
+        id INT PRIMARY KEY,
+    id_aluno INT NOT NULL,
+    id_tarefa INT NOT NULL,
+    nota DECIMAL(5,2),
+    qtd_acerto TINYINT NOT NULL,
+    numero_tentativa TINYINT NOT NULL,
+    tempo_total SMALLINT NULL,
+    data_envio TIMESTAMP NOT NULL,
+    status ENUM('em_andamento', 'enviada', 'corrigida') NOT NULL DEFAULT 'em_andamento',
+    FOREIGN KEY (id_aluno)  REFERENCES aluno(id_aluno),
+    FOREIGN KEY (id_tarefa) REFERENCES tarefa(id)
+);
